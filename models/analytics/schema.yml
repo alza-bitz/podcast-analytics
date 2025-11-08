@@ -56,15 +56,17 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('dim_users')
-              field: user_id
+              arguments:
+                to: ref('dim_users')
+                field: user_id
       - name: episode_id
         description: "Foreign key to dim_episodes. Cannot be null, orphaned interactions are not permitted in this model"
         tests:
           - not_null
           - relationships:
-              to: ref('dim_episodes')
-              field: episode_id
+              arguments:
+                to: ref('dim_episodes')
+                field: episode_id
       - name: event_type
         description: "Type of interaction event"
         tests:

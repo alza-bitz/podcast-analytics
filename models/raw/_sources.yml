@@ -7,7 +7,7 @@ sources:
       - name: events
         description: Raw podcast event logs from JSON file
         external:
-          location: "{{ var('events_json_path') }}"
+          location: '{{ var("data_load_path") }}/event_logs_*.json'
           file_format: json
         columns:
           - name: event_type

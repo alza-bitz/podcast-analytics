@@ -47,5 +47,4 @@ seeds:
 
 # Variables for file paths
 vars:
-  events_json_path: 'data/*.json'
-  data_load_base_path: 'data'
+  data_load_path: 'data'

@@ -11,7 +11,7 @@ select
     filename::varchar as filename,
     current_timestamp::timestamp as load_at
 from read_ndjson(
-    '{{ var("events_json_path") }}',
+    '{{ var("data_load_path") }}/event_logs_*.json',
     filename=true,
     auto_detect=false,
     columns={

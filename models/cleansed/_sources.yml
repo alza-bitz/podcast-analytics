@@ -7,7 +7,7 @@ sources:
       - name: episodes
         description: Raw (but assumed valid) podcast episode data from CSV files
         external:
-          location: '{{ var("data_load_base_path") }}/episodes_*.csv'
+          location: '{{ var("data_load_path") }}/episodes_*.csv'
           file_format: csv
         columns:
           - name: episode_id

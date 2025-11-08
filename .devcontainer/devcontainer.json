@@ -22,8 +22,7 @@
 		"vscode": {
 			"extensions": [
 				"mtxr.sqltools",
-				"Evidence.sqltools-duckdb-driver",
-				"innoverio.vscode-dbt-power-user"
+				"Evidence.sqltools-duckdb-driver"
 			]
 		}
 	},

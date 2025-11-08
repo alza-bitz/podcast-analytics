@@ -56,6 +56,26 @@ Execute all pipeline steps in order:
    dbt seed
    ```
 
+2. **Add some event data**
+
+   ```bash
+   mkdir data/
+   split data_example/event_logs.json data_example/event_logs_ --suffix-length=2 --numeric-suffixes=1 --additional-suffix=.json
+   cp data_example/event_logs_01.json data/
+   ```
+
+3. **Add some episode data**
+
+   A script is provided to split the example data files. These split files can then be copied into the `data` directory:
+
+   ```bash
+   mkdir data/
+   cd data_example
+   ./split_episodes.sh
+   cp episodes_*.csv ../data/
+   cd ..
+   ```
+
 2. **Run all models** (raw → validated → cleansed → analytics):
    ```bash
    dbt run
@@ -106,18 +126,24 @@ dbt run  # Incremental models will automatically process only new data
 ```
 
 ### Adding New Event Data
-1. Place new JSON event files in the `data/` directory
-
-   ```bash
-   split data_example/event_logs.json data_example/event_logs_ --suffix-length=2 --numeric-suffixes=1 --additional-suffix=.json
-   cp data_example/event_logs_01.json data/
-   ```
+1. Place new JSON by running `split` as described above and copying the results into the `data` directory.
 
 2. Run the pipeline to process new events:
 
    ```bash
    dbt run --select raw_events+  # Run raw_events and all downstream models
    ```
+
+### Adding New Episode Data
+
+1. Place new CSV files by running `split_episodes.sh` as described above and copying the results into the `data` directory.
+
+2. Run the pipeline to process new episodes:
+
+   ```bash
+   dbt run --select cleansed_episodes+  # Run cleansed_episodes and all downstream models
+   ```
+
 
 ## Development
 

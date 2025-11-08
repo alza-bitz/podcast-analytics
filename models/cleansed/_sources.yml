@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: external
+    description: External data sources
+    tables:
+      - name: episodes
+        description: Raw (but assumed valid) podcast episode data from CSV files
+        external:
+          location: '{{ var("data_load_base_path") }}/episodes_*.csv'
+          file_format: csv
+        columns:
+          - name: episode_id
+            data_type: varchar(50)
+          - name: podcast_id
+            data_type: varchar(50)
+          - name: title
+            data_type: varchar(200)
+          - name: release_date
+            data_type: date
+          - name: duration_seconds
+            data_type: integer

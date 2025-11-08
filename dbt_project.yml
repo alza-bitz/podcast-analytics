@@ -44,14 +44,8 @@ seeds:
         user_id: varchar(50)
         signup_date: date
         country: varchar(10)
-    episodes:
-      +column_types:
-        episode_id: varchar(50)
-        podcast_id: varchar(50)
-        title: varchar(200)
-        release_date: date
-        duration_seconds: integer
 
 # Variables for file paths
 vars:
   events_json_path: 'data/*.json'
+  data_load_base_path: 'data'

@@ -21,6 +21,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"ms-toolsai.jupyter",
 				"mtxr.sqltools",
 				"Evidence.sqltools-duckdb-driver"
 			]

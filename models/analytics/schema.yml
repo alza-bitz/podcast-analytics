@@ -52,14 +52,14 @@ models:
           - unique
           - not_null
       - name: user_id
-        description: "Foreign key to dim_users"
+        description: "Foreign key to dim_users. Cannot be null, orphaned interactions are not permitted in this model"
         tests:
           - not_null
           - relationships:
               to: ref('dim_users')
               field: user_id
       - name: episode_id
-        description: "Foreign key to dim_episodes"
+        description: "Foreign key to dim_episodes. Cannot be null, orphaned interactions are not permitted in this model"
         tests:
           - not_null
           - relationships:
@@ -70,7 +70,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['play', 'pause', 'seek', 'complete']
+              arguments:
+                values: ['play', 'pause', 'seek', 'complete']
       - name: timestamp
         description: "When the interaction occurred"
         tests:

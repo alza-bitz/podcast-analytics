@@ -6,4 +6,4 @@ select
   title::varchar as title,
   release_date::date as release_date,
   duration_seconds::integer as duration_seconds
-from {{ ref('episodes') }}
+from {{ ref('cleansed_episodes') }}

@@ -12,7 +12,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['play', 'pause', 'seek', 'complete']
+              arguments:
+                values: ['play', 'pause', 'seek', 'complete']
               
       - name: user_id
         description: "Unique identifier for the user"
@@ -63,3 +64,42 @@ models:
           column_name: "user_id || '|' || episode_id || '|' || event_type || '|' || timestamp"
           config:
             severity: error
+
+  - name: cleansed_episodes
+    description: "Merged episode data (newly landed files win)"
+    columns:
+      - name: episode_id
+        description: "Unique identifier for an episode"
+        tests:
+          - unique
+          - not_null
+      - name: podcast_id
+        description: "Identifier for the podcast this episode belongs to"
+        tests:
+          - not_null
+      - name: title
+        description: "Title of the episode"
+        tests:
+          - not_null
+      - name: release_date
+        description: "Date when the episode was released"
+        tests:
+          - not_null
+      - name: duration_seconds
+        description: "Duration of the episode in seconds"
+        tests:
+          - not_null
+      - name: load_at
+        description: "Timestamp when the data was loaded into the system"
+        data_type: timestamp
+        constraints:
+          - type: not_null
+        tests:
+          - not_null
+      - name: filename
+        description: "Source filename for auditing and data lineage"
+        data_type: varchar
+        constraints:
+          - type: not_null
+        tests:
+          - not_null

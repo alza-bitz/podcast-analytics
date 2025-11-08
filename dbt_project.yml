@@ -26,9 +26,9 @@ models:
     validated:
       +materialized: incremental
       +schema: validated
-    # Cleansed models (Silver layer) - materialized as tables for deduplication
+    # Cleansed models (Silver layer) - materialized as incremental for performance
     cleansed:
-      +materialized: table
+      +materialized: incremental
       +schema: cleansed
     # Analytics/marts models (Gold layer) - materialized as incremental for performance
     analytics:

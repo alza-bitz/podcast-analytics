@@ -1,7 +1,4 @@
-{{ config(
-    materialized='incremental',
-    unique_key='episode_id')
-}}
+{{ config(unique_key='episode_id') }}
 
 with deduplicated_episodes as (
     select
@@ -12,7 +9,7 @@ with deduplicated_episodes as (
         duration_seconds::int as duration_seconds,
         filename::varchar as filename,
         current_timestamp::timestamp as load_at,
-        row_number() over (partition by episode_id order by filename desc) as row_num -- only computed over whole table when doing full refresh
+        row_number() over (partition by episode_id order by filename desc) as row_num -- only computed over all files when doing full refresh
     from read_csv('{{ var("data_load_base_path") }}/episodes_*.csv',
         header=true,
         auto_detect=false,

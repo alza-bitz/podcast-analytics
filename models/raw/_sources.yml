@@ -2,13 +2,13 @@ version: 2
 
 sources:
   - name: external
-    description: External data sources
+    description: External data sources (require validation)
     tables:
       - name: events
         description: Raw podcast event logs from JSON file
-        external:
-          location: "{{ var('events_json_path') }}"
-          file_format: json
+        config:
+          external_location: "read_ndjson('{{ var(\"data_load_path\") }}/event_logs_*.json', filename=true, auto_detect=false, columns={'event_type': 'VARCHAR', 'user_id': 'VARCHAR', 'episode_id': 'VARCHAR', 'timestamp': 'VARCHAR', 'duration': 'VARCHAR'})"
+          formatter: oldstyle
         columns:
           - name: event_type
             description: Type of user interaction (play, pause, seek, complete)

@@ -1,5 +1,4 @@
 {{ config(
-    materialized='incremental',
     unique_key='interaction_id',
     on_schema_change='fail'
 ) }}

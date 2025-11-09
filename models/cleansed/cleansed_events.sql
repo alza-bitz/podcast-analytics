@@ -3,22 +3,9 @@ with valid_events as (
   select *
   from {{ ref('validated_events') }}
   where array_length(validation_errors) = 0
-),
-
-deduplicated_events as (
-  select
-    event_type,
-    user_id,
-    episode_id,
-    timestamp,
-    duration,
-    load_at,
-    filename,
-    row_number() over (
-      partition by user_id, episode_id, event_type, timestamp
-      order by load_at desc
-    ) as row_num
-  from valid_events
+  {% if is_incremental() %}
+  and load_at > (select max(load_at) from {{ this }})
+  {% endif %}
 )
 
 select
@@ -42,6 +29,4 @@ select
   load_at,
   filename
 
-from deduplicated_events
-where row_num = 1
-order by load_at
+from valid_events

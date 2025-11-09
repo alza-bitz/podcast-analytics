@@ -1,7 +1,12 @@
 dbt-core
 dbt-duckdb
 dbt-snowflake
+
+ipykernel
+pandas
+notebook
+duckdb
+
 uv
 pytest
 hypothesis
-duckdb

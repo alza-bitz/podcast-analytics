@@ -151,7 +151,7 @@ def test_single_file_load(strategy):
         
         # Act: Run the dbt model with all files globbed from loading directory
         dbt_vars = {
-            "events_json_path": os.path.join(loading_dir, "*.json"),
+            "data_load_path": loading_dir,
             "test_db_path": db_path
         }
         run_dbt_model("raw_events", dbt_vars)
@@ -205,7 +205,7 @@ def test_single_file_load_twice(strategy):
         
         # Prepare dbt variables
         dbt_vars = {
-            "events_json_path": os.path.join(loading_dir, "*.json"),
+            "data_load_path": loading_dir,
             "test_db_path": db_path
         }
         
@@ -273,7 +273,7 @@ def test_two_files_load(strategy):
         shutil.copy2(staging_paths[0], loading_dir)
         
         dbt_vars = {
-            "events_json_path": os.path.join(loading_dir, "*.json"),
+            "data_load_path": loading_dir,
             "test_db_path": db_path
         }
         run_dbt_model("raw_events", dbt_vars)

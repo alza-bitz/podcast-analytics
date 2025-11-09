@@ -22,3 +22,13 @@ models:
         description: "Timestamp when the record was loaded - not nullable"
         tests:
           - not_null
+
+  - name: validated_events
+    description: "Raw events loaded from JSON source with validation_errors column for validation step"
+    extends: 
+      - bronze.raw_events
+    columns:
+      - name: validation_errors
+        description: "Array of validation errors"
+        tests:
+          - not_null

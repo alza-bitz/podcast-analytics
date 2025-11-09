@@ -42,6 +42,14 @@ models:
         description: "Duration of the episode in seconds"
         tests:
           - not_null
+      - name: load_at
+        description: "Timestamp when the data was loaded into the system"
+        tests:
+          - not_null
+      - name: filename
+        description: "Source filename for auditing and data lineage"
+        tests:
+          - not_null
 
   - name: fact_user_interactions
     description: "Fact table containing user interaction events"
@@ -52,25 +60,28 @@ models:
           - unique
           - not_null
       - name: user_id
-        description: "Foreign key to dim_users"
+        description: "Foreign key to dim_users. Cannot be null, orphaned interactions are not permitted in this model"
         tests:
           - not_null
           - relationships:
-              to: ref('dim_users')
-              field: user_id
+              arguments:
+                to: ref('dim_users')
+                field: user_id
       - name: episode_id
-        description: "Foreign key to dim_episodes"
+        description: "Foreign key to dim_episodes. Cannot be null, orphaned interactions are not permitted in this model"
         tests:
           - not_null
           - relationships:
-              to: ref('dim_episodes')
-              field: episode_id
+              arguments:
+                to: ref('dim_episodes')
+                field: episode_id
       - name: event_type
         description: "Type of interaction event"
         tests:
           - not_null
           - accepted_values:
-              values: ['play', 'pause', 'seek', 'complete']
+              arguments:
+                values: ['play', 'pause', 'seek', 'complete']
       - name: timestamp
         description: "When the interaction occurred"
         tests:

@@ -10,18 +10,7 @@ select
     duration::varchar as duration,
     filename::varchar as filename,
     current_timestamp::timestamp as load_at
-from read_ndjson(
-    '{{ var("events_json_path") }}',
-    filename=true,
-    auto_detect=false,
-    columns={
-        'event_type': 'VARCHAR',
-        'user_id': 'VARCHAR', 
-        'episode_id': 'VARCHAR',
-        'timestamp': 'VARCHAR',
-        'duration': 'VARCHAR'
-    }
-)
+from {{ source('external', 'events') }}
 
 {% if is_incremental() %}
 where filename not in (select filename from {{ this }})

@@ -3,7 +3,7 @@
 
 with source_count as (
   select count(*) as source_rows
-  from read_json_auto('{{ var("events_json_path") }}')
+  from read_json_auto('{{ var("data_load_path") }}/event_logs_*.json')
 ),
 
 target_count as (

@@ -1,4 +1,4 @@
-{{ config(unique_key='episode_id') }}
+{{ config(unique_key='episode_id') }} -- merge strategy
 
 with deduplicated_episodes as (
     select
@@ -10,16 +10,7 @@ with deduplicated_episodes as (
         filename::varchar as filename,
         current_timestamp::timestamp as load_at,
         row_number() over (partition by episode_id order by filename desc) as row_num -- only computed over all files when doing full refresh
-    from read_csv('{{ var("data_load_path") }}/episodes_*.csv',
-        header=true,
-        auto_detect=false,
-        columns={
-            'episode_id': 'VARCHAR',
-            'podcast_id': 'VARCHAR',
-            'title': 'VARCHAR',
-            'release_date': 'DATE',
-            'duration_seconds': 'INT'
-        })
+    from {{ source('external_reference', 'episodes') }}
     {% if is_incremental() %}
     where filename not in (select filename from {{ this }})
     {% endif %}

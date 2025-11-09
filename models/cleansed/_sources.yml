@@ -1,14 +1,14 @@
 version: 2
 
 sources:
-  - name: external
-    description: External data sources
+  - name: external_reference
+    description: External data sources (assumed valid and clean)
     tables:
       - name: episodes
-        description: Raw (but assumed valid) podcast episode data from CSV files
-        external:
-          location: '{{ var("data_load_path") }}/episodes_*.csv'
-          file_format: csv
+        description: Raw podcast episode data from CSV files
+        config:
+          external_location: "read_csv('{{ var(\"data_load_path\") }}/episodes_*.csv', header=true, auto_detect=false, columns={'episode_id': 'VARCHAR', 'podcast_id': 'VARCHAR', 'title': 'VARCHAR', 'release_date': 'DATE', 'duration_seconds': 'INT'})"
+          formatter: oldstyle
         columns:
           - name: episode_id
             data_type: varchar(50)

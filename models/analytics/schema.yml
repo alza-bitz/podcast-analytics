@@ -42,6 +42,14 @@ models:
         description: "Duration of the episode in seconds"
         tests:
           - not_null
+      - name: load_at
+        description: "Timestamp when the data was loaded into the system"
+        tests:
+          - not_null
+      - name: filename
+        description: "Source filename for auditing and data lineage"
+        tests:
+          - not_null
 
   - name: fact_user_interactions
     description: "Fact table containing user interaction events"

@@ -1,9 +1,9 @@
-{{ config(materialized='table') }}
+{{ config(unique_key='episode_id') }} -- merge strategy
 
-select
-  episode_id::varchar as episode_id,
-  podcast_id::varchar as podcast_id,
-  title::varchar as title,
-  release_date::date as release_date,
-  duration_seconds::integer as duration_seconds
-from {{ ref('cleansed_episodes') }}
+with cleansed_episodes as (
+    select * from {{ ref('cleansed_episodes') }}
+)
+select * from cleansed_episodes
+{% if is_incremental() %}
+where load_at > (select max(load_at) from {{ this }})
+{% endif %}

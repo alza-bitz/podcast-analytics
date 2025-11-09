@@ -59,20 +59,20 @@ Execute all pipeline steps in order:
 2. **Add some event data**
 
    ```bash
-   mkdir data/
-   split data_example/event_logs.json data_example/event_logs_ --suffix-length=2 --numeric-suffixes=1 --additional-suffix=.json
-   cp data_example/event_logs_01.json data/
+   mkdir data_split/ data/
+   split data_example/event_logs.json data_split/event_logs_ --suffix-length=2 --numeric-suffixes=1 --additional-suffix=.json
+   cp data_split/event_logs_01.json data/
    ```
 
 3. **Add some episode data**
 
-   A script is provided to split the example data files. These split files can then be copied into the `data` directory:
+   A script is provided to split the example CSV data files with header retained. These split files can then be copied into the `data` directory:
 
    ```bash
-   mkdir data/
+   mkdir data_split/ data/
    cd data_example
    ./split_episodes.sh
-   cp episodes_*.csv ../data/
+   cp ../data_split/episodes_*.csv ../data/
    cd ..
    ```
 

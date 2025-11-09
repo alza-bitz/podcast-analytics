@@ -19,18 +19,15 @@ clean-targets:
 # Model configurations following Medallion Architecture
 models:
   podcast_analytics:
-    # Raw models (Bronze layer) - materialized as incremental for performance
     raw:
       +materialized: incremental
       +schema: raw
     validated:
       +materialized: incremental
       +schema: validated
-    # Cleansed models (Silver layer) - materialized as incremental for performance
     cleansed:
       +materialized: incremental
       +schema: cleansed
-    # Analytics/marts models (Gold layer) - materialized as incremental for performance
     analytics:
       +materialized: incremental
       +schema: analytics
@@ -39,7 +36,7 @@ models:
 seeds:
   podcast_analytics:
     +schema: cleansed
-    users:
+    cleansed_users:
       +column_types:
         user_id: varchar(50)
         signup_date: date

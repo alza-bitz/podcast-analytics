@@ -111,7 +111,7 @@ dbt run --select analytics
 
 ### Running Analysis Questions
 
-For detailed information about running the analysis questions, see the separate [Analysis Questions](docs/analysis-questions.md) document.
+For detailed information about running the analysis questions, see the separate [Analysis Questions](doc/analysis-questions.md) document.
 
 ### Data Refresh and Incremental Processing
 
@@ -149,7 +149,7 @@ dbt run  # Incremental models will automatically process only new data
 
 ### Approach
 
-For detailed information about the development approach used, see the separate [Development Approach](docs/development-approach.md) document.
+For detailed information about the development approach used, see the separate [Development Approach](doc/development-approach.md) document.
 
 ### Integration Tests
 The project includes comprehensive integration tests using pytest and hypothesis for data generation:
@@ -183,7 +183,7 @@ dbt ls --select question_1_top_completed_episodes+  # Show downstream dependenci
 
 ## Technical Architecture
 
-For detailed technical information about the data models, quality framework, and architectural decisions, see the separate [Technical Architecture](docs/technical-architecture.md) documentation.
+For detailed technical information about the data models, quality framework, and architectural decisions, see the separate [Technical Architecture](doc/technical-architecture.md) documentation.
 
 ## Acknowledgements
 

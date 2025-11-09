@@ -59,20 +59,20 @@ Execute all pipeline steps in order:
 2. **Add some event data**
 
    ```bash
-   mkdir data_split/ data/
+   mkdir data_split/ data_load/
    split data_example/event_logs.json data_split/event_logs_ --suffix-length=2 --numeric-suffixes=1 --additional-suffix=.json
-   cp data_split/event_logs_01.json data/
+   cp data_split/event_logs_01.json data_load/
    ```
 
 3. **Add some episode data**
 
-   A script is provided to split the example CSV data files with header retained. These split files can then be copied into the `data` directory:
+   A script is provided to split the example CSV data files with header retained. These split files can then be copied into the `data_load` directory:
 
    ```bash
-   mkdir data_split/ data/
+   mkdir data_split/ data_load/
    cd data_example
    ./split_episodes.sh
-   cp ../data_split/episodes_*.csv ../data/
+   cp ../data_split/episodes_*.csv ../data_load/
    cd ..
    ```
 
@@ -126,7 +126,7 @@ dbt run  # Incremental models will automatically process only new data
 ```
 
 ### Adding New Event Data
-1. Place new JSON by running `split` as described above and copying the results into the `data` directory.
+1. Place new JSON by running `split` as described above and copying the results into the `data_load` directory.
 
 2. Run the pipeline to process new events:
 
@@ -136,7 +136,7 @@ dbt run  # Incremental models will automatically process only new data
 
 ### Adding New Episode Data
 
-1. Place new CSV files by running `split_episodes.sh` as described above and copying the results into the `data` directory.
+1. Place new CSV files by running `split_episodes.sh` as described above and copying the results into the `data_load` directory.
 
 2. Run the pipeline to process new episodes:
 

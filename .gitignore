@@ -25,5 +25,5 @@ __pycache__/
 # data files
 *.duckdb
 *.db
-data/
+data_load/
 data_split/

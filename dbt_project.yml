@@ -44,4 +44,4 @@ seeds:
 
 # Variables for file paths
 vars:
-  data_load_path: 'data'
+  data_load_path: 'data_load'

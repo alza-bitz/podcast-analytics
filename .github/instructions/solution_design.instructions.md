@@ -113,6 +113,8 @@ To support the analysis questions in part 3 of the requirements, the analytics m
 - Fact table captures all user interactions, while the dimension tables provide context for users and episodes.
 - Indexes on foreign keys and frequently queried fields (e.g., event_type, timestamp) will improve query performance.
 
+The fact table primary key uniquely identifies a single fact row, also known as the "grain". In this model I assumed the grain is `(user_id, episode_id, event_type, timestamp)`. Although not strictly necessary, I decided to add a deterministic surrogate key `interaction_id` as the hash of those grain columns for traceability reasons (logging and auditing for example).
+
 #### DBT Configuration
 - Materialized: table (for users), incremental (for events and episodes, to process only "new" data since last run, determined by load_at column)
 - Incremental strategy: append (for events), merge (for episodes)
@@ -120,7 +122,7 @@ To support the analysis questions in part 3 of the requirements, the analytics m
 #### DBT Schema
 
 - **fact_user_interactions**
-  - interaction_id (INTEGER, PK, hash of: user_id, episode_id, event_type, timestamp); deterministic based on business key
+  - interaction_id (INTEGER, PK)
   - user_id (FK to dim_users)
   - episode_id (FK to dim_episodes)
   - event_type (ENUM: play, pause, seek, complete)

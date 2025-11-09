@@ -2,33 +2,28 @@
 
 ## Summary
 
-A data pipeline for processing podcast event logs to enable analytics on user engagement and episode performance. The solution addresses the requirements outlined in the [problem statement](.github/instructions/problem_statement_and_requirements.instructions.md) and follows the architecture described in the [solution design](.github/instructions/solution_design.instructions.md).
+A data pipeline for processing podcast event logs to enable analytics on user engagement and episode performance. It addresses the requirements outlined in the [problem statement](.github/instructions/problem_statement_and_requirements.instructions.md) and implements the points described in the [solution design](doc/solution_design.md).
 
 The pipeline processes raw JSON event logs from podcast streaming interactions, validates and cleanses the data, and transforms it into an analytics-ready star schema to answer key business questions about podcast performance and user behavior.
 
 ## Features
 
 ### Data Pipeline Architecture
+
 - **[Medallion Architecture](https://www.databricks.com/glossary/medallion-architecture)**: Bronze (raw), Silver (cleansed), Gold (analytics) data layers
 - **[ELT](https://wikipedia.org/wiki/Extract,_load,_transform) Pattern**: Extract and Load raw data, then Transform using [dbt](https://www.getdbt.com)
 - **Incremental Processing**: Handles new data efficiently with incremental models
 - **Data Quality Validation**: Comprehensive validation rules with error tracking
 - **Star Schema**: Optimized analytics model with fact and dimension tables
 
-### Analytics Capabilities
-- **Episode Performance**: Top completed episodes analysis
-- **User Engagement**: Listen-through rates by country
-- **User Behavior**: Multi-episode listening patterns
-- **Temporal Analysis**: Time-based filtering for recent activity
-
-### Data Sources
-- **Event Logs**: JSON files containing user interaction events (play, pause, seek, complete)
-- **User Reference Data**: CSV with user demographics and signup information
-- **Episode Reference Data**: CSV with episode metadata and podcast information
-
 ### Supported Databases
+
 - **[DuckDB](https://duckdb.org)**: Primary target for local development and testing
 - **[Snowflake](https://www.snowflake.com)**: Production target (configured but not yet implemented)
+
+## Solution Design
+
+For detailed information about my thought process, implementation decisions, assumptions made, pipeline architecture, data quality, lineage and model/schema, see the separate [solution design](doc/solution_design.md) documentation.
 
 ## Prerequisites
 
@@ -41,6 +36,7 @@ Alternatively, use an editor or environment that supports [dev containers](https
 ## Usage
 
 ### Initial Setup
+
 1. Ensure you're in the project root directory
 2. Install dependencies (if not using a dev container):
 
@@ -52,6 +48,7 @@ Alternatively, use an editor or environment that supports [dev containers](https
 Execute all pipeline steps in order:
 
 1. **Load seed data (reference tables)**:
+
    ```bash
    dbt seed
    ```
@@ -89,43 +86,41 @@ Execute all pipeline steps in order:
 ### Running Specific Pipeline Stages
 
 #### Bronze Layer (Raw Data)
-```bash
-# Load raw event data
-dbt run --select raw_events
 
-# Validate raw data
-dbt run --select validated_events
+```bash
+dbt run --select bronze
 ```
 
 #### Silver Layer (Cleansed Data)
+
 ```bash
-# Clean and normalize events
-dbt run --select cleansed_events
+dbt run --select silver
 ```
 
 #### Gold Layer (Analytics)
+
 ```bash
-# Build analytics models
-dbt run --select analytics
+dbt run --select gold
 ```
 
 ### Running Analysis Questions
 
-For detailed information about running the analysis questions, see the separate [Analysis Questions](doc/analysis-questions.md) document.
+For detailed information about running the analysis questions, see the separate [Analysis Questions](doc/analysis_questions.md) document.
 
 ### Data Refresh and Incremental Processing
 
-#### Full Refresh (Rebuild All Models)
+#### Process All Data (Rebuild All Models)
 ```bash
 dbt run --full-refresh
 ```
 
-#### Process Only New Data
+#### Process Only New Data (For Incremental Models)
 ```bash
-dbt run  # Incremental models will automatically process only new data
+dbt run  # Incremental models will automatically process new data only, non-incremental models will reprocess all data
 ```
 
 ### Adding New Event Data
+
 1. Place new JSON by running `split` as described above and copying the results into the `data_load` directory.
 
 2. Run the pipeline to process new events:
@@ -149,10 +144,11 @@ dbt run  # Incremental models will automatically process only new data
 
 ### Approach
 
-For detailed information about the development approach used, see the separate [Development Approach](doc/development-approach.md) document.
+For detailed information about the development approach used, see the [development approach](.github/instructions/development_approach.instructions.md) instructions.
 
 ### Integration Tests
-The project includes comprehensive integration tests using pytest and hypothesis for data generation:
+
+The project includes integration tests using pytest and hypothesis for data generation:
 
 ```bash
 # Run all integration tests
@@ -180,10 +176,6 @@ dbt docs serve
 dbt ls --select +question_1_top_completed_episodes  # Show upstream dependencies
 dbt ls --select question_1_top_completed_episodes+  # Show downstream dependencies
 ```
-
-## Technical Architecture
-
-For detailed technical information about the data models, quality framework, and architectural decisions, see the separate [Technical Architecture](doc/technical-architecture.md) documentation.
 
 ## Acknowledgements
 

@@ -159,17 +159,17 @@ def test_single_file_load(strategy):
         # Assert: Verify the results
         
         # 1. Count of loaded events
-        count_query = "SELECT COUNT(*) FROM main_raw.raw_events"
+        count_query = "SELECT COUNT(*) FROM main_bronze.raw_events"
         count_result = query_database(count_query, db_path)
         assert count_result[0][0] == len(events), f"Expected {len(events)} events, got {count_result[0][0]}"
         
         # 2. One load_at value
-        load_at_query = "SELECT DISTINCT load_at FROM main_raw.raw_events"
+        load_at_query = "SELECT DISTINCT load_at FROM main_bronze.raw_events"
         load_at_result = query_database(load_at_query, db_path)
         assert len(load_at_result) == 1, f"Expected exactly 1 unique load_at timestamp, got {len(load_at_result)}"
         
         # 3. One filename value
-        filename_query = "SELECT DISTINCT filename FROM main_raw.raw_events"
+        filename_query = "SELECT DISTINCT filename FROM main_bronze.raw_events"
         filename_result = query_database(filename_query, db_path)
         assert len(filename_result) == 1, f"Expected exactly 1 unique filename, got {len(filename_result)}"
         
@@ -213,7 +213,7 @@ def test_single_file_load_twice(strategy):
         run_dbt_model("raw_events", dbt_vars)
         
         # Capture load_at timestamp after first run
-        load_at_query = "SELECT DISTINCT load_at FROM main_raw.raw_events"
+        load_at_query = "SELECT DISTINCT load_at FROM main_bronze.raw_events"
         first_run_load_at = query_database(load_at_query, db_path)
         assert len(first_run_load_at) == 1, f"Expected exactly 1 unique load_at timestamp after first run, got {len(first_run_load_at)}"
         first_load_at_value = first_run_load_at[0][0]
@@ -224,7 +224,7 @@ def test_single_file_load_twice(strategy):
         # Assert: Verify the results
         
         # 1. Count of loaded events
-        count_query = "SELECT COUNT(*) FROM main_raw.raw_events"
+        count_query = "SELECT COUNT(*) FROM main_bronze.raw_events"
         count_result = query_database(count_query, db_path)
         assert count_result[0][0] == len(events), f"Expected {len(events)} events after running twice, got {count_result[0][0]} (possible duplicates)"
         
@@ -237,7 +237,7 @@ def test_single_file_load_twice(strategy):
         assert first_load_at_value == second_load_at_value, f"Expected load_at to remain the same after second run, got {first_load_at_value} vs {second_load_at_value}"
         
         # 4. One loaded filename
-        filename_query = "SELECT DISTINCT filename FROM main_raw.raw_events"
+        filename_query = "SELECT DISTINCT filename FROM main_bronze.raw_events"
         filename_result = query_database(filename_query, db_path)
         assert len(filename_result) == 1, f"Expected exactly 1 unique filename, got {len(filename_result)}"
         # assert loading_file_path == filename_result[0][0], f"Expected filename to be {loading_file_path}, got {filename_result[0][0]}"
@@ -279,13 +279,13 @@ def test_two_files_load(strategy):
         run_dbt_model("raw_events", dbt_vars)
         
         # Capture results after first run
-        count_query = "SELECT COUNT(*) FROM main_raw.raw_events"
+        count_query = "SELECT COUNT(*) FROM main_bronze.raw_events"
         first_count_result = query_database(count_query, db_path)
         
-        load_at_query = "SELECT DISTINCT load_at FROM main_raw.raw_events"
+        load_at_query = "SELECT DISTINCT load_at FROM main_bronze.raw_events"
         first_load_at_result = query_database(load_at_query, db_path)
         
-        filename_query = "SELECT DISTINCT filename FROM main_raw.raw_events"
+        filename_query = "SELECT DISTINCT filename FROM main_bronze.raw_events"
         first_filename_result = query_database(filename_query, db_path)
         
         # Verify first run loaded only first file's events

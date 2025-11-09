@@ -20,7 +20,7 @@ dbt run --select question_1_top_completed_episodes --vars '{"analysis_end_date":
 
 #### Query Results
 ```sql
-SELECT * FROM main_analytics.question_1_top_completed_episodes;
+SELECT * FROM main_gold.question_1_top_completed_episodes;
 ```
 
 ### Parameters
@@ -55,7 +55,7 @@ dbt run --select question_2_avg_listen_through_rate_by_country
 
 #### Query Results
 ```sql
-SELECT * FROM main_analytics.question_2_avg_listen_through_rate_by_country
+SELECT * FROM main_gold.question_2_avg_listen_through_rate_by_country
 ORDER BY avg_listen_through_rate DESC;
 ```
 
